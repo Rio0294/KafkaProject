@@ -20,7 +20,7 @@ else:
     value = None
 
 
-#Kakfka Producer Setup
+#Kafka Producer Setup
 producer = KafkaProducer(
     bootstrap_servers = '127.0.0.1:9092', 
     key_serializer = str.encode,
@@ -59,12 +59,12 @@ df.to_csv('stocks_info.csv', index= False)
 
 #Connect to SQL Server
 try:
-    connection_stocks_info = create_engine("mssql+pyodbc://@RIYA\\SQLEXPRESS/stocks_info"
-    "?driver=ODBC+DRiver+17+for+SQL+Server"
+    connection_stocks_info = create_engine("mssql+pyodbc://@MSSQLSERVER/database_name"
+    "?driver=MSSQLSERVERDRIVER"
     "&trusted_connection=yes")
     
   
-    with connection_stocks_info.connect()as conn:
+    with connection_database_name.connect()as conn:
         conn.commit()
     
     print("Connected to Database")
@@ -74,6 +74,6 @@ except Exception as ex:
     print("Connection failed",ex)
 
 # Insert Data in SQL Server
-df.to_sql('stocks',con = connection_stocks_info, schema= 'dbo', if_exists= "append",index= False)
+df.to_sql('stocks',con = connection_database_name, schema= 'dbo', if_exists= "append",index= False)
 
 
